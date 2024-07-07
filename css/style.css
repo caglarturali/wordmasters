@@ -86,6 +86,12 @@ body {
     transition: background-color 500ms ease, color 100ms ease;
 }
 
+.rect.active {
+    height: calc(var(--rect-size) - 6px);
+    border-bottom: 6px solid #bbbbbf;
+    animation: blinker 1s step-start 500ms infinite;
+}
+
 .rect.invalid {
     background-color: #fe5f55;
     color: white;
@@ -113,7 +119,7 @@ body {
     color: #999;
     font-size: 0.8em;
     text-decoration: none;
-    padding-bottom: 36px;
+    margin-bottom: 36px;
 }
 
 .footer a:hover {
@@ -122,4 +128,10 @@ body {
 
 .hidden {
     visibility: hidden;
+}
+
+@keyframes blinker {
+    50% {
+        border-color: #eff1f3;
+    }
 }

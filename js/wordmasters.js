@@ -29,25 +29,22 @@ const wordmasters = {
             }
             this.board.push(row);
         }
-    },
-
-    startGame() {
         document.addEventListener('keydown', this.onKeyDown.bind(this));
         this.restartBtn.addEventListener('click', this.restart.bind(this));
-        this.showRestart(false);
     },
 
-    onKeyDown(event) {
+    async onKeyDown(event) {
         if (this.isLoading || this.isDone) return;
 
         const { key, code } = event;
         if (code === 'Enter') {
-            this.handleEnter();
+            await this.handleEnter();
         } else if (code === 'Backspace') {
             this.handleBackspace();
         } else if (this.isLetter(key)) {
             this.handleLetter(key);
         }
+        this.drawBlinker();
     },
 
     handleLetter(key) {
@@ -142,8 +139,6 @@ const wordmasters = {
     },
 
     async restart() {
-        await this.fetchTheWord(true);
-        this.showRestart(false);
         this.walkTheBoard((row, col, currRect) => {
             currRect.classList = 'rect';
             currRect.innerText = '';
@@ -151,6 +146,9 @@ const wordmasters = {
         this.currRow = 0;
         this.currCol = 0;
         this.isDone = false;
+        this.showRestart(false);
+        await this.fetchTheWord(true);
+        this.drawBlinker();
     },
 
     showLoading(show) {
@@ -175,6 +173,16 @@ const wordmasters = {
             freqs[c]++;
         });
         return freqs;
+    },
+
+    drawBlinker() {
+        this.walkTheBoard((row, col, rect) => {
+            if (row === this.currRow && col === this.currCol) {
+                rect.classList.add('active');
+            } else {
+                rect.classList.remove('active');
+            }
+        });
     },
 
     walkTheBoard(processRect) {
@@ -208,11 +216,12 @@ const wordmasters = {
         return json.validWord;
     },
 
-    init() {
+    async init() {
         this.getElements();
         this.createBoard();
-        this.fetchTheWord();
-        this.startGame();
+        this.showRestart(false);
+        await this.fetchTheWord();
+        this.drawBlinker();
     },
 };
 
