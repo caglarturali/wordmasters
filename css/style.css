@@ -97,6 +97,10 @@ body {
     color: white;
 }
 
+.rect.fail {
+    color: #bbb;
+}
+
 .rect.success {
     background-color: #08a045;
     color: white;

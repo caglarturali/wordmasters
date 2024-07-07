@@ -93,12 +93,14 @@ const wordmasters = {
             }
         }
 
-        // Correct letter, wrong place
+        // Correct letter, wrong place or wrong letter
         for (let i = 0; i < wordLen; i++) {
             if (theWord[i] === theGuess[i]) continue; // Already marked
             if (theWord.includes(theGuess[i]) && letterFreqs[theGuess[i]] > 0) {
                 this.board[this.currRow][i].classList.add('warning');
                 letterFreqs[theGuess[i]]--;
+            } else {
+                this.board[this.currRow][i].classList.add('fail');
             }
         }
 
