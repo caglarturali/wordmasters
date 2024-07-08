@@ -130,7 +130,7 @@ const wordmasters = {
     lost() {
         this.showRestart(true);
         this.walkTheBoard((row, col, currRect) => {
-            if (row === 2) {
+            if (row === this.rowCount - 1) {
                 currRect.classList = 'rect invalid';
                 currRect.innerText = this.theWord[col];
             } else {
